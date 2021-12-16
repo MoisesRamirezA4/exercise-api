@@ -10,13 +10,14 @@ import (
 	"github.com/epa-datos/exercise/github.com/epa-datos/exercise-api/entity"
 )
 
-type postService interface {
+type PostService interface {
 }
 
-type post struct {
+type Post struct {
 }
 
-func (p post) allPosts(newPost entity.Post) []byte {
+//Creating a new POST
+func (p *Post) CreatePost(newPost entity.Post) []byte {
 	var buf bytes.Buffer
 	err := json.NewEncoder(&buf).Encode(newPost)
 	if err != nil {
@@ -36,4 +37,27 @@ func (p post) allPosts(newPost entity.Post) []byte {
 	}
 
 	return body
+}
+
+//Returning all the posts
+func (p *Post) AllPosts() []*entity.Post {
+	resp, err := http.Get("https://jsonplaceholder.typicode.com/posts")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var postResponse []entity.PostDTO
+	json.Unmarshal(body, &postResponse)
+
+	var posts []*entity.Post
+	for _, p := range postResponse {
+		posts = append(posts, p.ConvertToPost())
+	}
+	return posts
 }
