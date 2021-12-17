@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/epa-datos/exercise/github.com/epa-datos/exercise-api/entity"
+	"github.com/epa-datos/exercise-api/entity"
 )
 
 type PostService interface {

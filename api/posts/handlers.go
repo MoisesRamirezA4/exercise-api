@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/epa-datos/exercise/github.com/epa-datos/exercise-api/entity"
-	"github.com/epa-datos/exercise/github.com/epa-datos/exercise-api/services/post"
+	"github.com/epa-datos/exercise-api/entity"
+	"github.com/epa-datos/exercise-api/services/post"
 	"github.com/gin-gonic/gin"
 )
 
