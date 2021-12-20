@@ -1,9 +1,9 @@
 package posts
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
+	_ "encoding/json"
+	_ "io/ioutil"
+	_ "log"
 	"net/http"
 
 	"github.com/epa-datos/exercise-api/entity"
@@ -23,23 +23,8 @@ func (p *postHandler) listPosts(c *gin.Context) {
 // Method for GET --> PATH number
 
 func (p *postHandler) postPath(c *gin.Context) {
-	number := c.Param("number")
-	resp, err := http.Get("https://jsonplaceholder.typicode.com/posts/" + number)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	var postResponse entity.PostDTO
-
-	json.Unmarshal(body, &postResponse)
-	c.JSON(200, postResponse.ConvertToPost())
-
+	var getPostById post.Post
+	c.JSON(200, getPostById.OnePost(c.Param("number")).ConvertToPost())
 }
 
 //Method for http.POST
